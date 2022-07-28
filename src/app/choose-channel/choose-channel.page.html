@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Step 1: Your Channel</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item lines="none">
+      <ion-icon color="primary" slot="start" name="chatbubbles-outline"></ion-icon>
+      <ion-text color="primary">
+        <h3>Use or create a Channel</h3>
+      </ion-text>
+    </ion-item>
+
+    <form (ngSubmit)="useOrCreateChannel()">
+      <ion-item>
+        <ion-label position="floating">Channel name</ion-label>
+        <ion-input type="text" [(ngModel)]="channelName" name="channelName"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Your name</ion-label>
+        <ion-input type="text" [(ngModel)]="userName" name="userName"></ion-input>
+      </ion-item>
+      <ion-button expand="block" type="submit" block>
+        <!-- <ion-icon slot="start" name="chatbubbles-outline"></ion-icon> -->
+        Use/Create Channel
+      </ion-button>
+    </form>
+  </ion-list>
+
+</ion-content>

@@ -1,0 +1,7 @@
+{
+  "name": "pushnator",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

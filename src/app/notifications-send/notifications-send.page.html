@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Step 2 & 3: Send/Read</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <ion-item lines="none">
+      <ion-text color="primary">
+        <h3>Welcome {{userName}}!!!</h3>
+      </ion-text>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-text>
+        <p>You are in Channel {{channelName}}.</p>
+      </ion-text>
+    </ion-item>
+
+
+    <form (ngSubmit)="sendNotification()">
+      <ion-item lines="none">
+        <ion-icon color="primary" slot="start" name="send-outline"></ion-icon>
+        <ion-text color="primary">
+          <h3>Step 2</h3>
+        </ion-text>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Title</ion-label>
+        <ion-input type="text" [(ngModel)]="title" name="title"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Body</ion-label>
+        <ion-input type="text" [(ngModel)]="body" name="body"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="recipients.length > 0">
+        <ion-select [(ngModel)]="recipient" placeholder="Select Recipient" name="recipient">
+          <ion-select-option *ngFor="let r of recipients" value="{{r.token}}">{{r.userName}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-button expand="block" type="submit" block>
+        Send Notification
+      </ion-button>
+    </form>
+  </ion-list>
+
+  <!-- <ion-segment (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="foreground">
+      <ion-label>Foreground</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="background">
+      <ion-label>Background</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-item [ngClass]="foregroundVisibility">
+    <ion-card *ngFor="let f of foreground">
+      <ion-card-header>
+        <ion-card-title>{{f.title}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        {{f.body}}
+      </ion-card-content>
+    </ion-card>
+  </ion-item>
+
+  <ion-item [ngClass]="backgroundVisibility"> 
+    <ion-card *ngFor="let b of background">
+      <ion-card-header>
+        <ion-card-title>{{b.title}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        {{b.body}}
+      </ion-card-content>
+    </ion-card>
+  </ion-item> -->
+
+</ion-content>
