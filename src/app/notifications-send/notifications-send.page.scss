@@ -17,6 +17,10 @@ form {
   text-align: center;
 }
 
+.error {
+  color: var(--ion-color-danger);
+}
+
 .visible-msg {
   display: block;
 }

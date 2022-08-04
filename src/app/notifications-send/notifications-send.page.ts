@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { FirebaseService } from '../services/firebase.service';
 import { NotificationsService } from '../services/notifications.service';
-import { StorageService } from '../services/storage.service';
+
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 @Component({
   selector: 'app-notifications-send',
@@ -10,6 +11,9 @@ import { StorageService } from '../services/storage.service';
   styleUrls: ['./notifications-send.page.scss'],
 })
 export class NotificationsSendPage implements OnInit, OnDestroy {
+  sendForm: FormGroup;
+  isSubmitted = false;
+
   userName: string = "";
   channelName: string = "";
 
@@ -17,19 +21,15 @@ export class NotificationsSendPage implements OnInit, OnDestroy {
   body: string = "";
   recipient: string = "";
   recipients = [];
-  foreground = [];
-  background = [];
 
   loading = null;
 
-  foregroundVisibility: string = "visible-msg";
-  backgroundVisibility: string = "non-visible-msg";
-
   constructor(private notificationService: NotificationsService,
     private firebaseService: FirebaseService,
-    private storage: StorageService,
     private loadingController: LoadingController,
-    private toastController: ToastController) { }
+    private toastController: ToastController,
+    public formBuilder: FormBuilder,
+    private alertController: AlertController) { }
 
   ngOnDestroy(): void {
     if (this.loading) this.loading.dismiss();
@@ -38,29 +38,31 @@ export class NotificationsSendPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.sendForm = this.formBuilder.group({
+      title: ['', [Validators.required, Validators.minLength(2)]],
+      body: ['', [Validators.required, Validators.minLength(2)]],
+      recipient: ['', [Validators.required, Validators.minLength(2)]],
+    });
+
     this.userName = this.notificationService.currentUserName;
     this.channelName = this.notificationService.currentChannelName;
 
     this.getRecipients();
-
-    this.readLocalStorage();
-
-    this.listenToStorageChanges()
   }
 
-  async readLocalStorage() {
-    let f = await this.storage.get("foregroundReceived");
-    if (f != null) this.foreground = [...f.data];
-
-    let b = await this.storage.get("backgroundReceived");
-    if (b != null) this.background = [...b.data];
+  get errorControl() {
+    return this.sendForm.controls;
   }
 
-  listenToStorageChanges() {
-    this.storage.watchStorage().subscribe(message => {
-      console.log("Llegó el cambio---------------------------------------");
-      this.readLocalStorage();
-    })
+  submitForm() {
+    this.isSubmitted = true;
+    if (!this.sendForm.valid) {
+      console.log('Please provide all the required values!')
+      return false;
+    } else {
+      console.log(this.sendForm.value)
+      this.sendNotification();
+    }
   }
 
   getRecipients() {
@@ -74,8 +76,10 @@ export class NotificationsSendPage implements OnInit, OnDestroy {
         console.log(t);
         console.log("adios2----------------------------------------------")
         if (t != this.notificationService.currentToken) this.recipients.push({ token: t, userName: u });
-      })
-    })
+      }), (error) => {
+        this.presentAlert();
+      }
+    });
   }
 
   sendNotification() {
@@ -88,6 +92,8 @@ export class NotificationsSendPage implements OnInit, OnDestroy {
       }
       console.log("sendNotification-----------------------------")
       //console.log(this.loading)
+    }, (error) => {
+      this.presentAlert();
     });
   }
 
@@ -108,17 +114,18 @@ export class NotificationsSendPage implements OnInit, OnDestroy {
     toast.present();
   }
 
-  segmentChanged(ev: any) {
-    console.log('Segment changed', ev);
-    console.log(ev.detail.value)
-    if(ev.detail.value == "foreground"){
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Alert!',
+      message: 'Connection Error. Try it later.',
+      buttons: [
+        {
+          text: 'OK',
+          role: 'confirm'
+        }
+      ]
+    });
 
-      this.backgroundVisibility = "non-visible-msg";
-      this.foregroundVisibility = "visible-msg";
-    } else {
-      this.foregroundVisibility = "non-visible-msg";
-      this.backgroundVisibility = "visible-msg";
-    }
+    await alert.present();
   }
-
 }

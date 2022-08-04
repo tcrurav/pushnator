@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { FirebaseService } from '../services/firebase.service';
 import { NotificationsService } from '../services/notifications.service';
+import { StorageService } from '../services/storage.service';
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 @Component({
   selector: 'app-choose-channel',
@@ -10,6 +12,9 @@ import { NotificationsService } from '../services/notifications.service';
   styleUrls: ['./choose-channel.page.scss'],
 })
 export class ChooseChannelPage implements OnInit, OnDestroy {
+
+  channelForm: FormGroup;
+  isSubmitted = false;
 
   channelName: string = "";
   userName: string = "";
@@ -20,9 +25,28 @@ export class ChooseChannelPage implements OnInit, OnDestroy {
     private firebaseService: FirebaseService,
     private notificationsService: NotificationsService,
     private router: Router,
-    private loadingController: LoadingController) { }
+    private loadingController: LoadingController,
+    private storage: StorageService,
+    public formBuilder: FormBuilder,
+    private alertController: AlertController) { }
 
   ngOnInit() {
+    this.channelForm = this.formBuilder.group({
+      channelName: ['', [Validators.required, Validators.minLength(2)]],
+      userName: ['', [Validators.required, Validators.minLength(2)]],
+    });
+
+    this.storage.get("channelName").then(channelName => {
+      this.channelName = channelName;
+    });
+
+    this.storage.get("userName").then(userName => {
+      this.userName = userName;
+    });
+  }
+
+  get errorControl() {
+    return this.channelForm.controls;
   }
 
   ngOnDestroy(): void {
@@ -36,8 +60,19 @@ export class ChooseChannelPage implements OnInit, OnDestroy {
       message: 'connecting to channel...',
       duration: 10000
     });
-    
+
     this.loading.present();
+  }
+
+  submitForm() {
+    this.isSubmitted = true;
+    if (!this.channelForm.valid) {
+      console.log('Please provide all the required values!')
+      return false;
+    } else {
+      console.log(this.channelForm.value)
+      this.useOrCreateChannel();
+    }
   }
 
   useOrCreateChannel() {
@@ -78,8 +113,16 @@ export class ChooseChannelPage implements OnInit, OnDestroy {
 
           this.goToNotificationsPage(channelId, this.userName);
           console.log("useOrCreateChannel10-------------------------------------------------")
+        }, (error) => {
+          console.log("Error5-------------------------------------------------")
+          console.log(JSON.stringify(error));
+          this.presentAlert();
         });
       console.log("useOrCreateChannel11-------------------------------------------------")
+    }, (error) => {
+      console.log("Error4-------------------------------------------------")
+      console.log(JSON.stringify(error));
+      this.presentAlert();
     });
     console.log("useOrCreateChannel12-------------------------------------------------")
   }
@@ -88,6 +131,9 @@ export class ChooseChannelPage implements OnInit, OnDestroy {
     this.notificationsService.currentChannelId = channelId;
     this.notificationsService.currentUserName = userName;
     this.notificationsService.currentChannelName = this.channelName;
+
+    this.storage.set("channelName", this.channelName);
+    this.storage.set("userName", this.userName);
 
     if (this.loading) this.loading.dismiss();
 
@@ -100,20 +146,49 @@ export class ChooseChannelPage implements OnInit, OnDestroy {
       console.log("useOrCreateChannel14-------------------------------------------------")
       this.addDeviceToChannel(channel.id, token, userName);
       console.log("useOrCreateChannel15-------------------------------------------------")
-    });
+    }).catch(error => {
+      console.log("Error3-------------------------------------------------")
+      console.log(JSON.stringify(error));
+      this.presentAlert();
+    });;
   }
 
   addDeviceToChannel(channelId: string, token: string, userName: string) {
     console.log("useOrCreateChannel16-------------------------------------------------")
     this.firebaseService.addDeviceToChannel(channelId, token, userName).then(res => {
       this.goToNotificationsPage(channelId, userName);
+    }).catch(error => {
+      console.log("Error2-------------------------------------------------")
+      console.log(JSON.stringify(error));
+      this.presentAlert();
     });
   }
 
   updateUserNameToChannelDevice(channelId: string, deviceId: string, userName: string) {
     this.firebaseService.updateUserNameToChannelDevice(channelId, deviceId, userName).then(res => {
       this.goToNotificationsPage(channelId, userName);
+    }).catch(error => {
+      console.log("Error1-------------------------------------------------")
+      console.log(JSON.stringify(error));
+      this.presentAlert();
     });
+  }
+
+  async presentAlert() {
+    if (this.loading) this.loading.dismiss();
+
+    const alert = await this.alertController.create({
+      header: 'Alert!',
+      message: 'Connection Error. Try it later.',
+      buttons: [
+        {
+          text: 'OK',
+          role: 'confirm'
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
 }

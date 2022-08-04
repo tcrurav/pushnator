@@ -21,62 +21,62 @@
       </ion-text>
     </ion-item>
 
+    <ion-item lines="none" *ngIf="recipients.length == 0">
+      <ion-text color="secondary">
+        <h4>You are the only user in this channel right now. Waiting for other users to join...</h4>
+      </ion-text>
+    </ion-item>
 
-    <form (ngSubmit)="sendNotification()">
-      <ion-item lines="none">
-        <ion-icon color="primary" slot="start" name="send-outline"></ion-icon>
-        <ion-text color="primary">
-          <h3>Step 2</h3>
-        </ion-text>
-      </ion-item>
+    <ion-item lines="none" *ngIf="recipients.length > 0">
+      <ion-icon color="primary" slot="end" name="send-outline"></ion-icon>
+      <ion-text color="primary">
+        <h4>Send a notification</h4>
+      </ion-text>
+    </ion-item>
+
+    <form *ngIf="recipients.length > 0" [formGroup]="sendForm" (ngSubmit)="submitForm()" novalidate>
+      
       <ion-item>
         <ion-label position="floating">Title</ion-label>
-        <ion-input type="text" [(ngModel)]="title" name="title"></ion-input>
+        <ion-input formControlName="title" type="text" [(ngModel)]="title" name="title"></ion-input>
       </ion-item>
+      <!-- Error messages  -->
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.title.errors?.required">
+        Title is required.
+      </span>
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.title.errors?.minlength">
+        Title should be min 2 chars long.
+      </span>
+
       <ion-item>
         <ion-label position="floating">Body</ion-label>
-        <ion-input type="text" [(ngModel)]="body" name="body"></ion-input>
+        <ion-input formControlName="body" type="text" [(ngModel)]="body" name="body"></ion-input>
       </ion-item>
+      <!-- Error messages  -->
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.body.errors?.required">
+        Body is required.
+      </span>
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.body.errors?.minlength">
+        Body should be min 2 chars long.
+      </span>
+
       <ion-item *ngIf="recipients.length > 0">
-        <ion-select [(ngModel)]="recipient" placeholder="Select Recipient" name="recipient">
+        <ion-select formControlName="recipient" [(ngModel)]="recipient" placeholder="Select Recipient" name="recipient">
           <ion-select-option *ngFor="let r of recipients" value="{{r.token}}">{{r.userName}}</ion-select-option>
         </ion-select>
       </ion-item>
+      <!-- Error messages  -->
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.recipient.errors?.required">
+        Recipient is required.
+      </span>
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.recipient.errors?.minlength">
+        Recipient should be min 2 chars long.
+      </span>
+
       <ion-button expand="block" type="submit" block>
         Send Notification
       </ion-button>
     </form>
   </ion-list>
-
-  <!-- <ion-segment (ionChange)="segmentChanged($event)">
-    <ion-segment-button value="foreground">
-      <ion-label>Foreground</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="background">
-      <ion-label>Background</ion-label>
-    </ion-segment-button>
-  </ion-segment>
-
-  <ion-item [ngClass]="foregroundVisibility">
-    <ion-card *ngFor="let f of foreground">
-      <ion-card-header>
-        <ion-card-title>{{f.title}}</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        {{f.body}}
-      </ion-card-content>
-    </ion-card>
-  </ion-item>
-
-  <ion-item [ngClass]="backgroundVisibility"> 
-    <ion-card *ngFor="let b of background">
-      <ion-card-header>
-        <ion-card-title>{{b.title}}</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        {{b.body}}
-      </ion-card-content>
-    </ion-card>
-  </ion-item> -->
 
 </ion-content>

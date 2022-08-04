@@ -4,6 +4,8 @@ ion-button {
 
 ion-list {
   margin: 2em;
+  // height: 100vh;
+  // vertical-align: middle;
 }
 
 form {
@@ -15,4 +17,8 @@ form {
 
 .title-text {
   text-align: center;
+}
+
+.error {
+  color: var(--ion-color-danger);
 }

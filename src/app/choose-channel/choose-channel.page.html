@@ -3,33 +3,51 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Step 1: Your Channel</ion-title>
+    <ion-title>Step 1: Group to push...</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
+
     <ion-item lines="none">
-      <ion-icon color="primary" slot="start" name="chatbubbles-outline"></ion-icon>
+      <ion-img class="logo-and-name" src="assets/group-2.png"></ion-img>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-icon color="primary" slot="end" name="chatbubbles-outline"></ion-icon>
       <ion-text color="primary">
-        <h3>Use or create a Channel</h3>
+        <h4>Use or create a Group</h4>
       </ion-text>
     </ion-item>
 
-    <form (ngSubmit)="useOrCreateChannel()">
+    <form [formGroup]="channelForm" (ngSubmit)="submitForm()" novalidate>
       <ion-item>
-        <ion-label position="floating">Channel name</ion-label>
-        <ion-input type="text" [(ngModel)]="channelName" name="channelName"></ion-input>
+        <ion-label position="floating">Group name</ion-label>
+        <ion-input formControlName="channelName" type="text" [(ngModel)]="channelName" name="channelName"></ion-input>
       </ion-item>
+      <!-- Error messages  -->
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.channelName.errors?.required">
+        Group name is required.
+      </span>
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.channelName.errors?.minlength">
+        Group name should be min 2 chars long.
+      </span>
+
       <ion-item>
         <ion-label position="floating">Your name</ion-label>
-        <ion-input type="text" [(ngModel)]="userName" name="userName"></ion-input>
+        <ion-input formControlName="userName" type="text" [(ngModel)]="userName" name="userName"></ion-input>
       </ion-item>
-      <ion-button expand="block" type="submit" block>
-        <!-- <ion-icon slot="start" name="chatbubbles-outline"></ion-icon> -->
-        Use/Create Channel
-      </ion-button>
-    </form>
+      <!-- Error messages -->
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.userName.errors?.required">
+        User name is required.
+      </span>
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.userName.errors?.minlength">
+        User name should be min 2 chars long.
+      </span>
+
+      <ion-button expand="block" type="submit" block>Use/Create Group</ion-button>
+    </form> 
   </ion-list>
 
 </ion-content>
