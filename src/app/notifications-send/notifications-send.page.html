@@ -9,10 +9,10 @@
 
 <ion-content>
 
-  <ion-list>
+  <ion-list class="user-and-channel-list">
     <ion-item lines="none">
       <ion-text color="primary">
-        <h3>Welcome {{userName}}!!!</h3>
+        <h4>Welcome {{userName}}!!!</h4>
       </ion-text>
     </ion-item>
     <ion-item lines="none">
@@ -20,16 +20,18 @@
         <p>You are in Channel {{channelName}}.</p>
       </ion-text>
     </ion-item>
+  </ion-list>
 
+  <ion-list>
     <ion-item lines="none" *ngIf="recipients.length == 0">
-      <ion-text color="secondary">
-        <h4>You are the only user in this channel right now. Waiting for other users to join...</h4>
+      <ion-text color="warning">
+        <h4><ion-icon name="information-circle-outline"></ion-icon> You are the only user in this channel right now. Waiting for other users to join...</h4>
       </ion-text>
     </ion-item>
 
     <ion-item lines="none" *ngIf="recipients.length > 0">
       <ion-icon color="primary" slot="end" name="send-outline"></ion-icon>
-      <ion-text color="primary">
+      <ion-text color="">
         <h4>Send a notification</h4>
       </ion-text>
     </ion-item>
@@ -38,7 +40,7 @@
       
       <ion-item>
         <ion-label position="floating">Title</ion-label>
-        <ion-input formControlName="title" type="text" [(ngModel)]="title" name="title"></ion-input>
+        <ion-input formControlName="title" type="text" [(ngModel)]="title" name="title" autocapitalize="characters"></ion-input>
       </ion-item>
       <!-- Error messages  -->
       <span class="error ion-padding" *ngIf="isSubmitted && errorControl.title.errors?.required">
@@ -50,7 +52,7 @@
 
       <ion-item>
         <ion-label position="floating">Body</ion-label>
-        <ion-input formControlName="body" type="text" [(ngModel)]="body" name="body"></ion-input>
+        <ion-input formControlName="body" type="text" [(ngModel)]="body" name="body" autocapitalize="characters"></ion-input>
       </ion-item>
       <!-- Error messages  -->
       <span class="error ion-padding" *ngIf="isSubmitted && errorControl.body.errors?.required">

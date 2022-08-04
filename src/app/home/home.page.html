@@ -1,8 +1,8 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar>
     <ion-title>Pushnator</ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
 <ion-content>
   <ion-slides pager="true" [options]="slideOpts">
@@ -12,59 +12,88 @@
           <ion-img class="logo-and-name" src="assets/logo-and-name.png"></ion-img>
         </ion-item>
         <ion-item lines="none">
-          <ion-text class="slide-text"><p><b>An App that shows how push notifications work with Ionic in 3 simple steps</b></p></ion-text>
+          <ion-text class="slide-text">
+            <p><b>This App shows how push notifications work in Ionic in just 3 steps</b></p>
+          </ion-text>
         </ion-item>
         <ion-item lines="none">
-          <ion-img class="logo-and-name" src="assets/group-2.png"></ion-img>
+          <ion-img class="logo-and-name" src="assets/group.png"></ion-img>
         </ion-item>
         <ion-item lines="none">
-          <ion-text class="slide-text-title" color="primary"><h3>Step 1</h3></ion-text>
+          <ion-text class="slide-text-title" color="primary">
+            <h3>Step 1</h3>
+          </ion-text>
         </ion-item>
         <ion-item lines="none">
-          <ion-text class="slide-text"><p>choose or create a Group to send/receive push messages from/to</p></ion-text>
+          <ion-text class="slide-text">
+            <p>choose or create a Group to send/receive push notifications</p>
+          </ion-text>
         </ion-item>
       </ion-list>
     </ion-slide>
     <ion-slide>
       <ion-list class="slide-list">
-        <!-- <ion-item lines="none">
-          <ion-img class="logo-and-name" src="assets/logo-and-name.png"></ion-img>
-        </ion-item> -->
         <ion-item lines="none">
-          <ion-text class="slide-text"><p><b>An App that shows how push notifications work with Ionic in 3 simple steps</b></p></ion-text>
+          <ion-img class="logo-and-name" src="assets/logo-and-name.png"></ion-img>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-text class="slide-text">
+            <p><b>This App shows how push notifications work in Ionic in just 3 steps</b></p>
+          </ion-text>
         </ion-item>
         <ion-item lines="none">
           <ion-img class="logo-and-name" src="assets/send.png"></ion-img>
         </ion-item>
         <ion-item lines="none">
-          <ion-text class="slide-text-title" color="primary"><h3>Step 2</h3></ion-text>
+          <ion-text class="slide-text-title" color="primary">
+            <h3>Step 2</h3>
+          </ion-text>
         </ion-item>
         <ion-item lines="none">
-          <ion-text class="slide-text"><p>send a push notification</p></ion-text>
+          <ion-text class="slide-text">
+            <p>send a push notification</p>
+          </ion-text>
         </ion-item>
       </ion-list>
     </ion-slide>
     <ion-slide>
-      <ion-list class="slide-list">
-        <!-- <ion-item lines="none">
+      <ion-list>
+        <ion-item lines="none">
           <ion-img class="logo-and-name" src="assets/logo-and-name.png"></ion-img>
-        </ion-item> -->
+        </ion-item>
         <!-- <ion-item lines="none">
-          <ion-text class="slide-text"><p><b>An App that shows how push notifications work with Ionic in 3 simple steps</b></p></ion-text>
-        </ion-item>-->
-        <ion-item lines="none"> 
+          <ion-text class="slide-text">
+            <p><b>This App shows how push notifications work in Ionic in just 3 steps</b></p>
+          </ion-text>
+        </ion-item> -->
+        <ion-item lines="none">
           <ion-img class="logo-and-name" src="assets/notification.png"></ion-img>
         </ion-item>
         <ion-item lines="none">
-          <ion-text class="slide-text-title" color="primary"><h3>Step 3</h3></ion-text>
+          <ion-text class="slide-text-title" color="primary">
+            <h3>Step 3</h3>
+          </ion-text>
         </ion-item>
         <ion-item lines="none">
-          <ion-text class="slide-text"><p>Read foreground messages in case your App is online or tap on the received push notification if your App was offline</p></ion-text>
+          <ion-text class="slide-text">
+            <p>Read foreground messages (sent when App was online) or tap on received push notifications (when App
+              was offline)</p>
+          </ion-text>
         </ion-item>
-        <ion-item lines="none">
-          <ion-text class="slide-text"><ion-button (click)="goToChooseChannel()"><p>Start pushing...</p></ion-button></ion-text>
-        </ion-item>
+        <!-- <ion-item lines="none">
+          <ion-text class="slide-text">
+            <ion-button (click)="goToChooseChannel()">
+              <p>Start pushing...</p>
+            </ion-button>
+          </ion-text>
+        </ion-item> -->
       </ion-list>
     </ion-slide>
   </ion-slides>
+
+  <ion-item lines="none">
+    <ion-text class="slide-button">
+      <ion-button (click)="goToChooseChannel()">Skip slides and start pushing...</ion-button>
+    </ion-text>
+  </ion-item>
 </ion-content>

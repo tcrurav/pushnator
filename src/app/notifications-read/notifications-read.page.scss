@@ -1,5 +1,18 @@
+ion-input {
+  text-transform: uppercase;
+}
+
 ion-button {
   margin-top: 1em;
+}
+
+.user-and-channel-list {
+  background-color: lightgray;
+  border-radius: 5%;
+}
+
+.user-and-channel-list ion-text {
+  margin: 0;
 }
 
 ion-title {
@@ -19,4 +32,8 @@ ion-list {
 
 .non-visible-msg {
   display: none;
+}
+
+ion-card {
+  --background: lightgray;
 }

@@ -1,6 +1,28 @@
+ion-list {
+  margin: 2em;
+}
+
+ion-input {
+  text-transform: uppercase;
+}
+
 ion-button {
   margin-top: 1em;
 }
+
+.user-and-channel-list {
+  background-color: lightgray;
+  border-radius: 5%;
+}
+
+.user-and-channel-list ion-text {
+  margin: 0;
+  padding: 0;
+}
+
+// .user-and-channel-list * {
+//   background-color: lightgray;
+// }
 
 ion-title {
   margin: 0 1em;
@@ -9,12 +31,8 @@ ion-title {
   background: url('../../assets/icon/favicon.png') no-repeat left center;
 }
 
-ion-list {
-  margin: 2em;
-}
-
 form {
-  margin-top: 2em;  
+  margin-top: 2em;
   border-radius: 5%;
   padding: 1em;
   border: 2px solid red;

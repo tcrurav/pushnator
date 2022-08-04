@@ -9,10 +9,10 @@
 
 <ion-content>
 
-  <ion-list>
+  <ion-list class="user-and-channel-list">
     <ion-item lines="none">
       <ion-text color="primary">
-        <h3>Welcome {{userName}}!!!</h3>
+        <h4>Welcome {{userName}}!!!</h4>
       </ion-text>
     </ion-item>
     <ion-item lines="none">
@@ -20,6 +20,9 @@
         <p>You are in Channel {{channelName}}.</p>
       </ion-text>
     </ion-item>
+  </ion-list>
+
+  <ion-list>
     <ion-item lines="none">
       <ion-icon color="primary" slot="end" name="receipt-outline"></ion-icon>
       <ion-text color="primary">
@@ -36,22 +39,26 @@
       </ion-segment-button>
     </ion-segment>
 
+    <ion-item [ngClass]="foregroundVisibility" *ngIf="foreground.length == 0">
+      <ion-text>No messages yet.</ion-text>
+    </ion-item>
+
     <ion-card *ngFor="let f of foreground" [ngClass]="foregroundVisibility">
       <ion-card-header>
         <ion-card-title>{{f.title}}</ion-card-title>
       </ion-card-header>
-      <ion-card-content>
-        {{f.body}}
-      </ion-card-content>
+      <ion-card-content>{{f.body}}</ion-card-content>
     </ion-card>
+
+    <ion-item [ngClass]="backgroundVisibility" *ngIf="background.length == 0">
+      <ion-text>No messages yet.</ion-text>
+    </ion-item>
 
     <ion-card *ngFor="let b of background" [ngClass]="backgroundVisibility">
       <ion-card-header>
         <ion-card-title>{{b.title}}</ion-card-title>
       </ion-card-header>
-      <ion-card-content>
-        {{b.body}}
-      </ion-card-content>
+      <ion-card-content>{{b.body}}</ion-card-content>
     </ion-card>
 
   </ion-list>
