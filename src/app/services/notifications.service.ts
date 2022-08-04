@@ -72,7 +72,7 @@ export class NotificationsService {
       }
       console.log("Hola40---------------------------------------------");
       console.log(JSON.stringify({title: notification.title, body: notification.body}));
-      foregroundReceivedSoFar.data.push({title: notification.title, body: notification.body});
+      foregroundReceivedSoFar.data.push({title: notification.title, body: notification.body, channelName: this.currentChannelName});
       console.log(JSON.stringify(foregroundReceivedSoFar));
       console.log("Hola41---------------------------------------------");
       this.storage.set("foregroundReceived", foregroundReceivedSoFar);
@@ -88,7 +88,8 @@ export class NotificationsService {
         backgroundReceivedSoFar = { data: [] };
       }
       console.log("Hola30---------------------------------------------");
-      backgroundReceivedSoFar.data.push({title: notification.notification.data.title, body: notification.notification.data.body});
+      backgroundReceivedSoFar.data.push({title: notification.notification.data.title, body: notification.notification.data.body, 
+        channelName: this.currentChannelName});
       console.log(backgroundReceivedSoFar);
       console.log("Hola31---------------------------------------------");
       this.storage.set("backgroundReceived", backgroundReceivedSoFar);

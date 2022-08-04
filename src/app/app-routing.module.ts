@@ -11,10 +11,6 @@ const routes: Routes = [
     path: 'choose-channel',
     loadChildren: () => import('./choose-channel/choose-channel.module').then( m => m.ChooseChannelPageModule)
   },
-  // {
-  //   path: 'notifications',
-  //   loadChildren: () => import('./notifications/notifications.module').then( m => m.NotificationsPageModule)
-  // },
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)

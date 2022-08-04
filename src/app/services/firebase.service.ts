@@ -26,6 +26,8 @@ export class FirebaseService {
   }
 
   getChannelCollectionByChannelName(channelName: string) {
+    console.log("getChannelCollectionByChannelName0-------------------------------------------------")
+    console.log(channelName);
     const collection = this.firestore.collection("/channels", ref => ref.where('channel_name', '==', channelName));
     return collection;
   }

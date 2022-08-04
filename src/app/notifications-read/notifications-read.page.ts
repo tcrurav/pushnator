@@ -30,11 +30,27 @@ export class NotificationsReadPage implements OnInit {
   }
 
   async readLocalStorage() {
-    let f = await this.storage.get("foregroundReceived");
-    if (f != null) this.foreground = [...f.data];
+    const f = await this.storage.get("foregroundReceived");
+    if (f != null) {
+      let fInSameChannel = [];
+      f.data.map(msg => {
+        if (msg.channelName == this.channelName) {
+          fInSameChannel.push(msg);
+        }
+      })
+      this.foreground = [...fInSameChannel];
+    }
 
-    let b = await this.storage.get("backgroundReceived");
-    if (b != null) this.background = [...b.data];
+    const b = await this.storage.get("backgroundReceived");
+    if (b != null) {
+      let bInSameChannel = [];
+      b.data.map(msg => {
+        if (msg.channelName == this.channelName) {
+          bInSameChannel.push(msg);
+        }
+      })
+      this.background = [...bInSameChannel];
+    }
   }
 
   listenToStorageChanges() {

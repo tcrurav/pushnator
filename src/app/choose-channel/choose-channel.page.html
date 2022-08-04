@@ -24,7 +24,7 @@
     <form [formGroup]="channelForm" (ngSubmit)="submitForm()" novalidate>
       <ion-item>
         <ion-label position="floating">Group name</ion-label>
-        <ion-input formControlName="channelName" type="text" [(ngModel)]="channelName" name="channelName"></ion-input>
+        <ion-input formControlName="channelName" type="text" name="channelName"></ion-input>
       </ion-item>
       <!-- Error messages  -->
       <span class="error ion-padding" *ngIf="isSubmitted && errorControl.channelName.errors?.required">
@@ -36,7 +36,7 @@
 
       <ion-item>
         <ion-label position="floating">Your name</ion-label>
-        <ion-input formControlName="userName" type="text" [(ngModel)]="userName" name="userName"></ion-input>
+        <ion-input formControlName="userName" type="text" name="userName"></ion-input>
       </ion-item>
       <!-- Error messages -->
       <span class="error ion-padding" *ngIf="isSubmitted && errorControl.userName.errors?.required">
